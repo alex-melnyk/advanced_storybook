@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
         body: AdvancedStorybook(
           stories: [
             Story(
-              name: 'ElevatedButton 1',
+              path: 'Common/ElevatedButton 1',
               description: 'Story for ElevatedButton 1',
               builder: (context) {
                 return ElevatedButton(
@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
               },
             ),
             Story(
-              name: 'ElevatedButton 2',
+              path: 'Common/ElevatedButton 2',
               description: 'Story for ElevatedButton 2',
               builder: (context) {
                 return ElevatedButton(
@@ -52,13 +52,13 @@ class _MyAppState extends State<MyApp> {
               },
             ),
             Story(
-              name: 'ElevatedButton 3',
-              description: 'Story for ElevatedButton 3',
+              path: 'TextField',
+              description: 'Simple story for TextField',
               builder: (context) {
-                return ElevatedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'ElevatedButton 3',
+                return SizedBox(
+                  width: 300,
+                  child: TextField(
+                    controller: TextEditingController(text: 'Hello Storybook'),
                   ),
                 );
               },

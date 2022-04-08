@@ -1,4 +1,5 @@
 import 'package:advanced_storybook/models/models.dart';
+import 'package:advanced_storybook/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -17,7 +18,7 @@ class AdvancedStorybook extends StatefulWidget {
 }
 
 class _AdvancedStorybookState extends State<AdvancedStorybook> {
-  final _selectedStory = ValueNotifier<int?>(null);
+  final _selectedStory = ValueNotifier<Story?>(null);
 
   @override
   Widget build(BuildContext context) {
@@ -25,52 +26,18 @@ class _AdvancedStorybookState extends State<AdvancedStorybook> {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Container(
-          width: 300,
-          decoration: BoxDecoration(
-            border: Border(
-              right: Divider.createBorderSide(context),
-            ),
-          ),
-          child: SingleChildScrollView(
-            child: ExpansionPanelList(
-              expansionCallback: (panelIndex, isExpanded) {},
-              children: [
-                ExpansionPanel(
-                  headerBuilder: (context, isExpanded) {
-                    return ListTile(
-                      title: Text('Stories'),
-                    );
-                  },
-                  body: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: List.generate(widget.stories.length, (index) {
-                      final story = widget.stories.elementAt(index);
-                      return ListTile(
-                        title: Text(story.name),
-                        subtitle: story.description != null
-                            ? Text(story.description!)
-                            : null,
-                        onTap: () {
-                          _selectedStory.value = index;
-                        },
-                      );
-                    }),
-                  ),
-                  isExpanded: true,
-                )
-              ],
-            ),
-          ),
+        StoriesPannel(
+          stories: widget.stories,
+          controller: _selectedStory,
         ),
         Expanded(
-          child: ValueListenableBuilder<int?>(
+          child: ValueListenableBuilder<Story?>(
             valueListenable: _selectedStory,
             builder: (_, value, __) {
-              if (value is int) {
+              if (value is Story) {
                 return Center(
                   child: Builder(
-                    builder: widget.stories.elementAt(value).builder,
+                    builder: value.builder,
                   ),
                 );
               }
