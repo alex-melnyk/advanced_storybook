@@ -2,8 +2,12 @@ import 'package:flutter/widgets.dart';
 
 class Story {
   const Story({
-    required this.widgets,
+    required this.name,
+    this.description,
+    required this.builder,
   });
 
-  final List<Widget> widgets;
+  final String name;
+  final String? description;
+  final WidgetBuilder builder;
 }

@@ -28,14 +28,40 @@ class _MyAppState extends State<MyApp> {
         body: AdvancedStorybook(
           stories: [
             Story(
-              widgets: [
-                ElevatedButton(
+              name: 'ElevatedButton 1',
+              description: 'Story for ElevatedButton 1',
+              builder: (context) {
+                return ElevatedButton(
                   onPressed: () {},
                   child: const Text(
-                    'ElevatedButton',
+                    'ElevatedButton 1',
                   ),
-                ),
-              ],
+                );
+              },
+            ),
+            Story(
+              name: 'ElevatedButton 2',
+              description: 'Story for ElevatedButton 2',
+              builder: (context) {
+                return ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'ElevatedButton 2',
+                  ),
+                );
+              },
+            ),
+            Story(
+              name: 'ElevatedButton 3',
+              description: 'Story for ElevatedButton 3',
+              builder: (context) {
+                return ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'ElevatedButton 3',
+                  ),
+                );
+              },
             ),
           ],
         ),
