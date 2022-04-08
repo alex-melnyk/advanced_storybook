@@ -22,14 +22,8 @@ class _AdvancedStorybookState extends State<AdvancedStorybook> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Stack(
       children: [
-        StoriesPannel(
-          stories: widget.stories,
-          controller: _selectedStory,
-        ),
         Expanded(
           child: ValueListenableBuilder<Story?>(
             valueListenable: _selectedStory,
@@ -48,6 +42,27 @@ class _AdvancedStorybookState extends State<AdvancedStorybook> {
               );
             },
           ),
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: StoriesPannel(
+            stories: widget.stories,
+            controller: _selectedStory,
+          ),
+        ),
+        ValueListenableBuilder<Story?>(
+          valueListenable: _selectedStory,
+          builder: (_, value, __) {
+            return AnimatedAlign(
+              alignment: value == null
+                  ? const Alignment(2.0, 0.0)
+                  : Alignment.centerRight,
+              duration: const Duration(milliseconds: 200),
+              child: EditingPannel(
+                controller: _selectedStory,
+              ),
+            );
+          },
         ),
       ],
     );
