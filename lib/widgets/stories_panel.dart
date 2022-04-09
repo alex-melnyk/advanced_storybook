@@ -32,7 +32,7 @@ class StoriesPannel extends StatelessWidget {
           child: ValueListenableBuilder<Story?>(
             valueListenable: controller,
             builder: (_, selectedStory, __) {
-              final storyPath = selectedStory?.path;
+              final storyPath = selectedStory?.key;
 
               return ExpansionPanelList(
                 elevation: 0,
@@ -60,7 +60,7 @@ class StoriesPannel extends StatelessWidget {
                               ? Text(story.description!)
                               : null,
                           onTap: () => controller.value = story,
-                          selected: story.path == storyPath,
+                          selected: story.key == storyPath,
                         );
                       }),
                     ),

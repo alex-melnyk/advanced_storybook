@@ -1,2 +1,2 @@
-export 'knob.dart';
+export 'option.dart';
 export 'story.dart';

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:advanced_storybook/advanced_storybook.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +30,30 @@ class _MyAppState extends State<MyApp> {
         body: AdvancedStorybook(
           stories: [
             Story(
-              path: 'Common/ElevatedButton 1',
+              key: 'Pages/Counter',
+              description: 'Simple counter page',
+              builder: (context) {
+                return Material(
+                  child: Scaffold(
+                    appBar: AppBar(
+                      title: Text('App Bar'),
+                      backgroundColor: context.options(
+                        key: 'AppBar color',
+                        description: 'Select the AppBar color',
+                        options: [
+                          Option(value: Colors.red),
+                          Option(value: Colors.green),
+                          Option(value: Colors.blue),
+                        ],
+                        initialIndex: 1,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            Story(
+              key: 'Common/ElevatedButton 1',
               description: 'Story for ElevatedButton 1',
               builder: (context) {
                 return ElevatedButton(
@@ -36,13 +61,13 @@ class _MyAppState extends State<MyApp> {
                   child: Text(context.string(
                     key: 'firstKnob',
                     description: 'Simple description',
-                    value: 'Hello KNOB',
+                    initial: 'Hello KNOB',
                   )),
                 );
               },
             ),
             Story(
-              path: 'Common/ElevatedButton 2',
+              key: 'Common/ElevatedButton 2',
               description: 'Story for ElevatedButton 2',
               builder: (context) {
                 return ElevatedButton(
@@ -54,7 +79,7 @@ class _MyAppState extends State<MyApp> {
               },
             ),
             Story(
-              path: 'TextField',
+              key: 'TextField',
               description: 'Simple story for TextField',
               builder: (context) {
                 return SizedBox(

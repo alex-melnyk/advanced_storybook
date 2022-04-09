@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 /// The story representation class.
 class Story {
   const Story({
-    required this.path,
+    required this.key,
     this.description,
     required this.builder,
   });
@@ -12,7 +12,7 @@ class Story {
   ///
   /// NOTICE: The '/' character could be used to group,
   /// e.g. 'Common/Button', 'Common/TestField'.
-  final String path;
+  final String key;
 
   /// Story description.
   final String? description;
@@ -22,13 +22,13 @@ class Story {
 
   /// Section getter.
   String get section {
-    final parts = path.split('/');
+    final parts = key.split('/');
     return parts.length > 1 ? parts.first : '';
   }
 
   /// Title getter.
   String get title {
-    final parts = path.split('/');
-    return parts.length > 1 ? parts.last : path;
+    final parts = key.split('/');
+    return parts.length > 1 ? parts.last : key;
   }
 }
