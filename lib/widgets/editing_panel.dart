@@ -19,7 +19,8 @@ class _EditingPannelState extends State<EditingPannel> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final knobsProvider = KnobsProvider.of(context);
-    final props = knobsProvider.knobsValuesFor(widget.story.path);
+    final knobStore = knobsProvider.knobStore;
+    final props = knobStore.storyKnobs(widget.story.path);
 
     return Container(
       width: 300,
@@ -47,7 +48,11 @@ class _EditingPannelState extends State<EditingPannel> {
                     ),
                     initialValue: value,
                     onChanged: (text) {
-                      knobValue.value = text;
+                      knobStore.updateStoryKnobValue(
+                        widget.story.path,
+                        knobKey: knobValue.key,
+                        newValue: text,
+                      );
                     },
                   );
                 },

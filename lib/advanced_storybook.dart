@@ -19,57 +19,64 @@ class AdvancedStorybook extends StatefulWidget {
 }
 
 class _AdvancedStorybookState extends State<AdvancedStorybook> {
+  final _knobStore = KnobStore();
   final _currentStory = ValueNotifier<Story?>(null);
 
   @override
   Widget build(BuildContext context) {
-    return KnobsProvider(
-      child: ValueListenableBuilder<Story?>(
-        valueListenable: _currentStory,
-        builder: (context, selectedStory, child) {
-          return Stack(
-            children: [
-              if (selectedStory is Story)
-                Center(
-                  child: StoryProvider(
-                    story: selectedStory,
-                    child: Builder(
-                      builder: selectedStory.builder,
+    return ValueListenableBuilder(
+      valueListenable: _knobStore,
+      builder: (_, value, __) {
+        return KnobsProvider(
+          knobStore: _knobStore,
+          child: ValueListenableBuilder<Story?>(
+            valueListenable: _currentStory,
+            builder: (_, selectedStory, __) {
+              return Stack(
+                children: [
+                  if (selectedStory is Story)
+                    Center(
+                      child: StoryProvider(
+                        story: selectedStory,
+                        child: Builder(
+                          builder: selectedStory.builder,
+                        ),
+                      ),
+                    )
+                  else
+                    const Placeholder(
+                      fallbackWidth: 100,
+                      fallbackHeight: 100,
+                    ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: StoriesPannel(
+                      stories: widget.stories,
+                      controller: _currentStory,
                     ),
                   ),
-                )
-              else
-                const Placeholder(
-                  fallbackWidth: 100,
-                  fallbackHeight: 100,
-                ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: StoriesPannel(
-                  stories: widget.stories,
-                  controller: _currentStory,
-                ),
-              ),
-              ValueListenableBuilder<Story?>(
-                valueListenable: _currentStory,
-                builder: (_, value, __) {
-                  return AnimatedAlign(
-                    alignment: value == null
-                        ? const Alignment(2.0, 0.0)
-                        : Alignment.centerRight,
-                    duration: const Duration(milliseconds: 200),
-                    child: value != null
-                        ? EditingPannel(
-                            story: value,
-                          )
-                        : const SizedBox(),
-                  );
-                },
-              ),
-            ],
-          );
-        },
-      ),
+                  ValueListenableBuilder<Story?>(
+                    valueListenable: _currentStory,
+                    builder: (_, value, __) {
+                      return AnimatedAlign(
+                        alignment: value == null
+                            ? const Alignment(2.0, 0.0)
+                            : Alignment.centerRight,
+                        duration: const Duration(milliseconds: 200),
+                        child: value != null
+                            ? EditingPannel(
+                                story: value,
+                              )
+                            : const SizedBox(),
+                      );
+                    },
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

@@ -7,33 +7,23 @@ extension Knob on BuildContext {
     String? description,
     required String value,
   }) {
-    final currentStory = StoryProvider.of(this).story;
     final knobsProvider = KnobsProvider.of(this);
 
+    final currentStory = StoryProvider.of(this).story;
+
     final storyKey = currentStory.path;
-    final knobs = knobsProvider.knobs;
 
-    if (knobs.containsKey(storyKey)) {
-      final values = knobs[storyKey]!;
+    final knobValue = knobsProvider.knobStore.addStoryKnob(
+      storyKey,
+      knobKey: key,
+      knobValue: KnobValue(
+        key: key,
+        description: description,
+        value: value,
+      ),
+    );
 
-      if (!values.containsKey(key)) {
-        values[key] = KnobValue(
-          key: key,
-          description: description,
-          value: value,
-        );
-      }
-    } else {
-      knobs[storyKey] = {
-        key: KnobValue(
-          key: key,
-          description: description,
-          value: value,
-        ),
-      };
-    }
-
-    return knobs[storyKey]![key]!.value;
+    return knobValue.value;
   }
 }
 
