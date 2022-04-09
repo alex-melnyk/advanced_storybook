@@ -33,7 +33,7 @@ extension Knob on BuildContext {
         .addStoryKnob(
           StoryProvider.of(this).story.key,
           knobKey: key,
-          knobNode: KnobOptionsNode<T>(
+          knobNode: KnobNodeOptions<T>(
             key: key,
             description: description,
             options: options,
@@ -41,6 +41,48 @@ extension Knob on BuildContext {
           ),
         )
         .value
+        .value;
+  }
+
+  T number<T extends num>({
+    required String key,
+    String? description,
+    required T initial,
+    required T min,
+    required T max,
+  }) {
+    return KnobsProvider.of(this)
+        .knobStore
+        .addStoryKnob(
+          StoryProvider.of(this).story.key,
+          knobKey: key,
+          knobNode: KnobNodeNumber<T>(
+            key: key,
+            description: description,
+            min: min,
+            max: max,
+            value: initial,
+          ),
+        )
+        .value;
+  }
+
+  bool boolean({
+    required String key,
+    String? description,
+    required bool initial,
+  }) {
+    return KnobsProvider.of(this)
+        .knobStore
+        .addStoryKnob(
+          StoryProvider.of(this).story.key,
+          knobKey: key,
+          knobNode: KnobNodeBool(
+            key: key,
+            description: description,
+            value: initial,
+          ),
+        )
         .value;
   }
 }

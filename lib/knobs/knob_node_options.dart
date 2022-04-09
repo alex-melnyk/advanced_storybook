@@ -2,8 +2,8 @@ import 'package:advanced_storybook/models/models.dart';
 
 import 'knob_node_base.dart';
 
-class KnobOptionsNode<T> extends KnobNodeBase<Option<T>> {
-  KnobOptionsNode({
+class KnobNodeOptions<T> extends KnobNodeBase<Option<T>> {
+  KnobNodeOptions({
     required String key,
     String? description,
     required Option<T> value,
@@ -20,7 +20,7 @@ class KnobOptionsNode<T> extends KnobNodeBase<Option<T>> {
   KnobNodeBase<Option<T>> copyWith({
     Option<T>? value,
   }) {
-    return KnobOptionsNode(
+    return KnobNodeOptions(
       key: key,
       description: description,
       value: value ?? this.value,

@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 class EditingPannel extends StatefulWidget {
   const EditingPannel({
     Key? key,
-    required this.story,
   }) : super(key: key);
-
-  final Story story;
 
   @override
   State<EditingPannel> createState() => _EditingPannelState();
@@ -19,8 +16,12 @@ class _EditingPannelState extends State<EditingPannel> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final knobsProvider = KnobsProvider.of(context);
+    final storyProvider = StoryProvider.of(context);
+
     final knobStore = knobsProvider.knobStore;
-    final props = knobStore.storyKnobs(widget.story.key);
+    final story = storyProvider.story;
+
+    final props = knobStore.storyKnobs(story.key);
 
     return Container(
       width: 300,
@@ -31,92 +32,35 @@ class _EditingPannelState extends State<EditingPannel> {
           left: Divider.createBorderSide(context),
         ),
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: List.generate(props.entries.length, (index) {
-            final knobValue = props.values.elementAt(index);
-
-            if (knobValue is KnobNodeText) {
-              return ListTile(
-                title: TextFormField(
-                  decoration: InputDecoration(
-                    isDense: false,
-                    labelText: knobValue.key,
-                    border: const OutlineInputBorder(),
-                  ),
-                  initialValue: knobValue.value,
-                  onChanged: (value) {
-                    knobStore.updateStoryKnobValue(
-                      widget.story.key,
-                      knobKey: knobValue.key,
-                      newValue: value,
-                    );
-                  },
-                ),
-                subtitle: knobValue.description != null
-                    ? Text(knobValue.description!)
-                    : null,
-              );
-            } else if (knobValue is KnobOptionsNode) {
-              return ListTile(
-                title: DropdownButtonFormField(
-                  decoration: InputDecoration(
-                    isDense: true,
-                    labelText: knobValue.key,
-                    border: const OutlineInputBorder(),
-                  ),
-                  value: knobValue.value,
-                  items: [
-                    for (final e in knobValue.options)
-                      if (e.value is Color)
-                        DropdownMenuItem(
-                          value: e,
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 24,
-                                height: 24,
-                                margin: const EdgeInsets.only(
-                                  right: 8.0,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: e.value,
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                              ),
-                              Text(
-                                e.toString(),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
-                        )
-                      else
-                        DropdownMenuItem(
-                          value: e,
-                          child: Text(
-                            e.toString(),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                  ],
-                  onChanged: (value) {
-                    knobStore.updateStoryKnobValue(
-                      widget.story.key,
-                      knobKey: knobValue.key,
-                      newValue: value,
-                    );
-                  },
-                ),
-                subtitle: knobValue.description != null
-                    ? Text(knobValue.description!)
-                    : null,
-              );
-            }
-
-            return const Text('Unrecognized KNOB');
-          }),
+      child: ListView.separated(
+        padding: const EdgeInsets.symmetric(
+          vertical: 16.0,
         ),
+        itemCount: props.length,
+        itemBuilder: (context, index) {
+          final knobNode = props.values.elementAt(index);
+
+          if (knobNode is KnobNodeText) {
+            return KnobTextWidget(
+              knobNode: knobNode,
+            );
+          } else if (knobNode is KnobNodeOptions) {
+            return KnobOptionsWidget(
+              knobNode: knobNode,
+            );
+          } else if (knobNode is KnobNodeNumber) {
+            return KnobSliderWidget(
+              knobNode: knobNode,
+            );
+          } else if (knobNode is KnobNodeBool) {
+            return KnobCheckboxWidget(
+              knobNode: knobNode,
+            );
+          }
+
+          return Text('Unrecognized KNOB [${knobNode.key}]');
+        },
+        separatorBuilder: (context, index) => const Divider(),
       ),
     );
   }

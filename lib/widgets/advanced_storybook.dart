@@ -36,10 +36,15 @@ class _AdvancedStorybookState extends State<AdvancedStorybook> {
                 children: [
                   if (selectedStory is Story)
                     Center(
-                      child: StoryProvider(
-                        story: selectedStory,
-                        child: Builder(
-                          builder: selectedStory.builder,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 300,
+                        ),
+                        child: StoryProvider(
+                          story: selectedStory,
+                          child: Builder(
+                            builder: selectedStory.builder,
+                          ),
                         ),
                       ),
                     )
@@ -64,8 +69,9 @@ class _AdvancedStorybookState extends State<AdvancedStorybook> {
                             : Alignment.centerRight,
                         duration: const Duration(milliseconds: 200),
                         child: value != null
-                            ? EditingPannel(
+                            ? StoryProvider(
                                 story: value,
+                                child: const EditingPannel(),
                               )
                             : const SizedBox(),
                       );

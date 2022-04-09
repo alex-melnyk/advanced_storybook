@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:advanced_storybook/advanced_storybook.dart';
 import 'package:flutter/material.dart';
 
@@ -48,6 +46,36 @@ class _MyAppState extends State<MyApp> {
                         initialIndex: 1,
                       ),
                     ),
+                    body: ListView.builder(
+                      itemCount: context.number(
+                        key: 'ListTile amount',
+                        description: 'Configure amount of list tiles.',
+                        initial: 5,
+                        min: 0,
+                        max: 50,
+                      ),
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(context.string(
+                            key: 'ListTile title',
+                            initial: 'ListTile Item',
+                          )),
+                          subtitle: Text(context.string(
+                            key: 'ListTile subtitle',
+                            initial: 'Dynamicaly generated items',
+                          )),
+                        );
+                      },
+                    ),
+                    floatingActionButton: context.boolean(
+                      key: 'FAB enabled',
+                      initial: true,
+                    )
+                        ? FloatingActionButton(
+                            onPressed: () {},
+                            child: const Icon(Icons.all_inbox),
+                          )
+                        : null,
                   ),
                 );
               },
