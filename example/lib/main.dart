@@ -33,9 +33,11 @@ class _MyAppState extends State<MyApp> {
               builder: (context) {
                 return ElevatedButton(
                   onPressed: () {},
-                  child: const Text(
-                    'ElevatedButton 1',
-                  ),
+                  child: Text(context.string(
+                    key: 'firstKnob',
+                    description: 'Simple description',
+                    value: 'Hello KNOB',
+                  )),
                 );
               },
             ),

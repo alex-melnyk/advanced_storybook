@@ -43,7 +43,7 @@ class StoriesPannel extends StatelessWidget {
                   return ExpansionPanel(
                     headerBuilder: (context, isExpanded) {
                       final sectionName =
-                      group.key.isEmpty ? 'Ungrouped' : group.key;
+                          group.key.isEmpty ? 'Ungrouped' : group.key;
 
                       return ListTile(
                         title: Text(sectionName),

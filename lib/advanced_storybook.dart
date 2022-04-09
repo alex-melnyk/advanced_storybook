@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 export 'package:advanced_storybook/models/models.dart';
+export 'package:advanced_storybook/widgets/widgets.dart';
 
 class AdvancedStorybook extends StatefulWidget {
   const AdvancedStorybook({
@@ -18,53 +19,57 @@ class AdvancedStorybook extends StatefulWidget {
 }
 
 class _AdvancedStorybookState extends State<AdvancedStorybook> {
-  final _selectedStory = ValueNotifier<Story?>(null);
+  final _currentStory = ValueNotifier<Story?>(null);
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Expanded(
-          child: ValueListenableBuilder<Story?>(
-            valueListenable: _selectedStory,
-            builder: (_, value, __) {
-              if (value is Story) {
-                return Center(
-                  child: Builder(
-                    builder: value.builder,
+    return KnobsProvider(
+      child: ValueListenableBuilder<Story?>(
+        valueListenable: _currentStory,
+        builder: (context, selectedStory, child) {
+          return Stack(
+            children: [
+              if (selectedStory is Story)
+                Center(
+                  child: StoryProvider(
+                    story: selectedStory,
+                    child: Builder(
+                      builder: selectedStory.builder,
+                    ),
                   ),
-                );
-              }
-
-              return const Placeholder(
-                fallbackWidth: 100,
-                fallbackHeight: 100,
-              );
-            },
-          ),
-        ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: StoriesPannel(
-            stories: widget.stories,
-            controller: _selectedStory,
-          ),
-        ),
-        ValueListenableBuilder<Story?>(
-          valueListenable: _selectedStory,
-          builder: (_, value, __) {
-            return AnimatedAlign(
-              alignment: value == null
-                  ? const Alignment(2.0, 0.0)
-                  : Alignment.centerRight,
-              duration: const Duration(milliseconds: 200),
-              child: EditingPannel(
-                controller: _selectedStory,
+                )
+              else
+                const Placeholder(
+                  fallbackWidth: 100,
+                  fallbackHeight: 100,
+                ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: StoriesPannel(
+                  stories: widget.stories,
+                  controller: _currentStory,
+                ),
               ),
-            );
-          },
-        ),
-      ],
+              ValueListenableBuilder<Story?>(
+                valueListenable: _currentStory,
+                builder: (_, value, __) {
+                  return AnimatedAlign(
+                    alignment: value == null
+                        ? const Alignment(2.0, 0.0)
+                        : Alignment.centerRight,
+                    duration: const Duration(milliseconds: 200),
+                    child: value != null
+                        ? EditingPannel(
+                            story: value,
+                          )
+                        : const SizedBox(),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
