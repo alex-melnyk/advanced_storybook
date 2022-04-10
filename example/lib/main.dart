@@ -40,32 +40,32 @@ class _MyAppState extends State<MyApp> {
                         initialIndex: 0,
                       ),
                     ),
-                    // body: ListView.builder(
-                    //   itemCount: context.number(
-                    //     key: 'ListTile/Items amount',
-                    //     description: 'Configure amount of list tiles.',
-                    //     initial: 5,
-                    //     min: 0,
-                    //     max: 50,
-                    //   ),
-                    //   itemBuilder: (context, index) {
-                    //     final title = context.string(
-                    //       key: 'ListTile/Items title',
-                    //       description: 'Common items title',
-                    //       initial: 'ListTile Item',
-                    //     );
-                    //     final subtitle = context.string(
-                    //       key: 'ListTile/Items subtitle',
-                    //       description: 'Common items subtitle',
-                    //       initial: 'Dynamicaly generated items',
-                    //     );
-                    //
-                    //     return ListTile(
-                    //       title: Text('$title $index'),
-                    //       subtitle: Text(subtitle),
-                    //     );
-                    //   },
-                    // ),
+                    body: ListView.builder(
+                      itemCount: context.number(
+                        key: 'ListTile/Items amount',
+                        description: 'Configure amount of list tiles.',
+                        initial: 5,
+                        min: 0,
+                        max: 50,
+                      ),
+                      itemBuilder: (context, index) {
+                        final title = context.string(
+                          key: 'ListTile/Items title',
+                          description: 'Common items title',
+                          initial: 'ListTile Item',
+                        );
+                        final subtitle = context.string(
+                          key: 'ListTile/Items subtitle',
+                          description: 'Common items subtitle',
+                          initial: 'Dynamicaly generated items',
+                        );
+
+                        return ListTile(
+                          title: Text('$title $index'),
+                          subtitle: Text(subtitle),
+                        );
+                      },
+                    ),
                     floatingActionButton: context.boolean(
                       key: 'FAB enabled',
                       initial: true,
