@@ -6,10 +6,10 @@ class KnobNodeText extends KnobNodeBase<String> {
     String? description,
     required String value,
   }) : super(
-    key: key,
-    description: description,
-    value: value,
-  );
+          key: key,
+          description: description,
+          value: value,
+        );
 
   @override
   KnobNodeBase<String> copyWithValue({String? value}) {

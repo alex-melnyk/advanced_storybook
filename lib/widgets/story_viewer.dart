@@ -18,7 +18,9 @@ class StoryViewer extends StatelessWidget {
       child: DevicePreview(
         builder: (context) {
           return Center(
-              child: Builder(builder: story.builder,),
+            child: Builder(
+              builder: story.builder,
+            ),
           );
         },
       ),
