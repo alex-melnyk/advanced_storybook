@@ -9,7 +9,7 @@ abstract class KnobNodeBase<T> {
   final String? description;
   final T value;
 
-  KnobNodeBase<T> copyWith({
+  KnobNodeBase<T> copyWithValue({
     T? value,
   });
 
@@ -31,5 +31,10 @@ abstract class KnobNodeBase<T> {
     }
 
     return key;
+  }
+
+  @override
+  String toString() {
+    return 'Knob $key: $value';
   }
 }

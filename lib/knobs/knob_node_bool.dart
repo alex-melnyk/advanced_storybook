@@ -6,13 +6,15 @@ class KnobNodeBool extends KnobNodeBase<bool> {
     String? description,
     required bool value,
   }) : super(
-    key: key,
-    description: description,
-    value: value,
-  );
+          key: key,
+          description: description,
+          value: value,
+        );
 
   @override
-  KnobNodeBase<bool> copyWith({bool? value}) {
+  KnobNodeBase<bool> copyWithValue({
+    bool? value,
+  }) {
     return KnobNodeBool(
       key: key,
       description: description,

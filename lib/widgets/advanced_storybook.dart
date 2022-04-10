@@ -3,6 +3,7 @@ import 'package:advanced_storybook/providers/providers.dart';
 import 'package:advanced_storybook/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:collection/collection.dart';
 
 class AdvancedStorybook extends StatefulWidget {
   const AdvancedStorybook({
@@ -21,27 +22,37 @@ class _AdvancedStorybookState extends State<AdvancedStorybook> {
   final _currentStory = ValueNotifier<Story?>(null);
 
   @override
+  void didUpdateWidget(covariant AdvancedStorybook oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.stories != widget.stories && _currentStory.value != null) {
+      _currentStory.value = null;
+      _knobStore.clearValues();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: _knobStore,
-      builder: (_, value, __) {
-        return KnobsProvider(
-          knobStore: _knobStore,
-          child: ValueListenableBuilder<Story?>(
-            valueListenable: _currentStory,
-            builder: (_, selectedStory, __) {
-              return Stack(
+    return ValueListenableBuilder<Story?> (
+      valueListenable: _currentStory,
+      builder: (_, currentStory, __) {
+        return ValueListenableBuilder(
+          valueListenable: _knobStore,
+          builder: (context, value, __) {
+            return KnobsProvider(
+              knobStore: _knobStore,
+              child: Stack(
                 children: [
-                  if (selectedStory is Story)
+                  if (currentStory is Story)
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 300,
                         ),
                         child: StoryProvider(
-                          story: selectedStory,
+                          story: currentStory,
                           child: Builder(
-                            builder: selectedStory.builder,
+                            builder: currentStory.builder,
                           ),
                         ),
                       ),
@@ -68,19 +79,27 @@ class _AdvancedStorybookState extends State<AdvancedStorybook> {
                         duration: const Duration(milliseconds: 200),
                         child: value != null
                             ? StoryProvider(
-                                story: value,
-                                child: const EditingPannel(),
-                              )
+                          story: value,
+                          child: const EditingPannel(),
+                        )
                             : const SizedBox(),
                       );
                     },
                   ),
                 ],
-              );
-            },
-          ),
+              ),
+            );
+          },
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _currentStory.dispose();
+    _knobStore.dispose();
+
+    super.dispose();
   }
 }

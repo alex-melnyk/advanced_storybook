@@ -12,7 +12,7 @@ class KnobNodeText extends KnobNodeBase<String> {
   );
 
   @override
-  KnobNodeBase<String> copyWith({String? value}) {
+  KnobNodeBase<String> copyWithValue({String? value}) {
     return KnobNodeText(
       key: key,
       description: description,

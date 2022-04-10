@@ -17,7 +17,7 @@ class KnobNodeOptions<T> extends KnobNodeBase<Option<T>> {
   final List<Option<T>> options;
 
   @override
-  KnobNodeBase<Option<T>> copyWith({
+  KnobNodeBase<Option<T>> copyWithValue({
     Option<T>? value,
   }) {
     return KnobNodeOptions(

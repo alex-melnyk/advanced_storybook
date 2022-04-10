@@ -17,7 +17,7 @@ class KnobNodeNumber<T extends num> extends KnobNodeBase<T> {
   final T max;
 
   @override
-  KnobNodeBase<T> copyWith({T? value}) {
+  KnobNodeBase<T> copyWithValue({T? value}) {
     return KnobNodeNumber<T>(
       key: key,
       description: description,

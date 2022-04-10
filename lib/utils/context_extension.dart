@@ -4,47 +4,29 @@ import 'package:advanced_storybook/providers/providers.dart';
 import 'package:flutter/widgets.dart';
 
 extension Knob on BuildContext {
-  String string({
+  /// Creates [bool] knob.
+  bool boolean({
     required String key,
     String? description,
-    required String initial,
+    required bool initial,
   }) {
-    return KnobsProvider.of(this)
-        .knobStore
-        .addStoryKnob(
-          StoryProvider.of(this).story.key,
-          knobKey: key,
-          knobNode: KnobNodeText(
-            key: key,
-            description: description,
-            value: initial,
-          ),
-        )
-        .value;
+    final knobProvider = KnobsProvider.of(this);
+    final storyProvider = StoryProvider.of(this);
+
+    final knobNode = knobProvider.knobStore.addStoryKnob(
+      storyProvider.story.key,
+      knobKey: key,
+      knobNode: KnobNodeBool(
+        key: key,
+        description: description,
+        value: initial,
+      ),
+    );
+
+    return knobNode.value;
   }
 
-  T options<T>({
-    required String key,
-    String? description,
-    required List<Option<T>> options,
-    int initialIndex = 0,
-  }) {
-    return KnobsProvider.of(this)
-        .knobStore
-        .addStoryKnob(
-          StoryProvider.of(this).story.key,
-          knobKey: key,
-          knobNode: KnobNodeOptions<T>(
-            key: key,
-            description: description,
-            options: options,
-            value: options[initialIndex],
-          ),
-        )
-        .value
-        .value;
-  }
-
+  /// Creates [int] or [double] knob.
   T number<T extends num>({
     required String key,
     String? description,
@@ -52,38 +34,67 @@ extension Knob on BuildContext {
     required T min,
     required T max,
   }) {
-    return KnobsProvider.of(this)
-        .knobStore
-        .addStoryKnob(
-          StoryProvider.of(this).story.key,
-          knobKey: key,
-          knobNode: KnobNodeNumber<T>(
-            key: key,
-            description: description,
-            min: min,
-            max: max,
-            value: initial,
-          ),
-        )
-        .value;
+    final knobProvider = KnobsProvider.of(this);
+    final storyProvider = StoryProvider.of(this);
+
+    final knobNode = knobProvider.knobStore.addStoryKnob(
+      storyProvider.story.key,
+      knobKey: key,
+      knobNode: KnobNodeNumber<T>(
+        key: key,
+        description: description,
+        min: min,
+        max: max,
+        value: initial,
+      ),
+    );
+
+    return knobNode.value;
   }
 
-  bool boolean({
+  /// Creates [String] knob.
+  String string({
     required String key,
     String? description,
-    required bool initial,
+    required String initial,
   }) {
-    return KnobsProvider.of(this)
-        .knobStore
-        .addStoryKnob(
-          StoryProvider.of(this).story.key,
-          knobKey: key,
-          knobNode: KnobNodeBool(
-            key: key,
-            description: description,
-            value: initial,
-          ),
-        )
-        .value;
+    final knobProvider = KnobsProvider.of(this);
+    final storyProvider = StoryProvider.of(this);
+
+    final knobNode = knobProvider.knobStore.addStoryKnob(
+      storyProvider.story.key,
+      knobKey: key,
+      knobNode: KnobNodeText(
+        key: key,
+        description: description,
+        value: initial,
+      ),
+    );
+
+    return knobNode.value;
+  }
+
+  /// Creates [Option] knob.
+  T options<T>({
+    required String key,
+    String? description,
+    required List<Option<T>> options,
+    int initialIndex = 0,
+  }) {
+    final knobProvider = KnobsProvider.of(this);
+    final storyProvider = StoryProvider.of(this);
+
+    final knobNode = knobProvider.knobStore.addStoryKnob(
+      storyProvider.story.key,
+      knobKey: key,
+      knobNode: KnobNodeOptions<T>(
+        key: key,
+        description: description,
+        options: options,
+        value: options[initialIndex],
+      ),
+    );
+
+    return knobNode.value.value;
   }
 }
