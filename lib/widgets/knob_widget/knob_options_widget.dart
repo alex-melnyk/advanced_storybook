@@ -1,5 +1,5 @@
 import 'package:advanced_storybook/knobs/knobs.dart';
-import 'package:advanced_storybook/widgets/widgets.dart';
+import 'package:advanced_storybook/providers/providers.dart';
 import 'package:flutter/material.dart';
 
 class KnobOptionsWidget extends StatelessWidget {
@@ -12,22 +12,19 @@ class KnobOptionsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final knobsProvider = KnobsProvider.of(context);
-    final storyProvider = StoryProvider.of(context);
-
     return ListTile(
       title: DropdownButtonFormField(
         decoration: InputDecoration(
           isDense: true,
-          labelText: knobNode.key,
+          labelText: knobNode.title,
           border: const OutlineInputBorder(),
         ),
         value: knobNode.value,
         items: [
-          for (final e in knobNode.options)
-            if (e.value is Color)
+          for (final option in knobNode.options)
+            if (option.value is Color)
               DropdownMenuItem(
-                value: e,
+                value: option,
                 child: Row(
                   children: [
                     Container(
@@ -37,12 +34,12 @@ class KnobOptionsWidget extends StatelessWidget {
                         right: 8.0,
                       ),
                       decoration: BoxDecoration(
-                        color: e.value,
+                        color: option.value,
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
                     Text(
-                      e.toString(),
+                      option.toString(),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
@@ -50,23 +47,31 @@ class KnobOptionsWidget extends StatelessWidget {
               )
             else
               DropdownMenuItem(
-                value: e,
+                value: option,
                 child: Text(
-                  e.toString(),
+                  option.toString(),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
         ],
-        onChanged: (value) {
-          knobsProvider.knobStore.updateStoryKnobValue(
-            storyProvider.story.key,
-            knobKey: knobNode.key,
-            newValue: value,
-          );
-        },
+        onChanged: (value) => handleOnChanged(
+          context,
+          value: value,
+        ),
       ),
       subtitle:
           knobNode.description != null ? Text(knobNode.description!) : null,
+    );
+  }
+
+  void handleOnChanged(BuildContext context, {required Object? value}) {
+    final knobsProvider = KnobsProvider.of(context);
+    final storyProvider = StoryProvider.of(context);
+
+    knobsProvider.knobStore.updateStoryKnobValue(
+      storyProvider.story.key,
+      knobKey: knobNode.key,
+      newValue: value,
     );
   }
 }

@@ -2,8 +2,8 @@ import 'package:advanced_storybook/models/models.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-class StoriesPannel extends StatelessWidget {
-  StoriesPannel({
+class ListingPannel extends StatelessWidget {
+  ListingPannel({
     Key? key,
     required List<Story> stories,
     required this.controller,

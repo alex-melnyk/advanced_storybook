@@ -1,10 +1,8 @@
 import 'package:advanced_storybook/models/models.dart';
+import 'package:advanced_storybook/providers/providers.dart';
 import 'package:advanced_storybook/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-export 'package:advanced_storybook/models/models.dart';
-export 'package:advanced_storybook/widgets/widgets.dart';
 
 class AdvancedStorybook extends StatefulWidget {
   const AdvancedStorybook({
@@ -55,7 +53,7 @@ class _AdvancedStorybookState extends State<AdvancedStorybook> {
                     ),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: StoriesPannel(
+                    child: ListingPannel(
                       stories: widget.stories,
                       controller: _currentStory,
                     ),

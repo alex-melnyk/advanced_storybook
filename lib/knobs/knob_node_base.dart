@@ -12,4 +12,24 @@ abstract class KnobNodeBase<T> {
   KnobNodeBase<T> copyWith({
     T? value,
   });
+
+  String get section {
+    final parts = key.split('/');
+
+    if (parts.length > 1) {
+      return parts.first;
+    }
+
+    return '';
+  }
+
+  String get title {
+    final parts = key.split('/');
+
+    if (parts.length > 1) {
+      return parts.last;
+    }
+
+    return key;
+  }
 }

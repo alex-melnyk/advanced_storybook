@@ -34,36 +34,43 @@ class _MyAppState extends State<MyApp> {
                 return Material(
                   child: Scaffold(
                     appBar: AppBar(
-                      title: Text('App Bar'),
+                      title: Text(context.string(
+                        key: 'AppBar/Title',
+                        initial: 'App Bar',
+                      )),
                       backgroundColor: context.options(
-                        key: 'AppBar color',
+                        key: 'AppBar/Background color',
                         description: 'Select the AppBar color',
                         options: [
-                          Option(value: Colors.red),
-                          Option(value: Colors.green),
-                          Option(value: Colors.blue),
+                          for (final color in Colors.primaries)
+                            Option(value: color),
                         ],
-                        initialIndex: 1,
+                        initialIndex: 0,
                       ),
                     ),
                     body: ListView.builder(
                       itemCount: context.number(
-                        key: 'ListTile amount',
+                        key: 'ListTile/Items amount',
                         description: 'Configure amount of list tiles.',
                         initial: 5,
                         min: 0,
                         max: 50,
                       ),
                       itemBuilder: (context, index) {
+                        final title = context.string(
+                          key: 'ListTile/Items title',
+                          description: 'Common items title',
+                          initial: 'ListTile Item',
+                        );
+                        final subtitle = context.string(
+                          key: 'ListTile/Items subtitle',
+                          description: 'Common items subtitle',
+                          initial: 'Dynamicaly generated items',
+                        );
+
                         return ListTile(
-                          title: Text(context.string(
-                            key: 'ListTile title',
-                            initial: 'ListTile Item',
-                          )),
-                          subtitle: Text(context.string(
-                            key: 'ListTile subtitle',
-                            initial: 'Dynamicaly generated items',
-                          )),
+                          title: Text('$title $index'),
+                          subtitle: Text(subtitle),
                         );
                       },
                     ),

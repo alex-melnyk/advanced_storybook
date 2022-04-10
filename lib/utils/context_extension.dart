@@ -1,5 +1,6 @@
 import 'package:advanced_storybook/knobs/knobs.dart';
-import 'package:advanced_storybook/widgets/widgets.dart';
+import 'package:advanced_storybook/models/models.dart';
+import 'package:advanced_storybook/providers/providers.dart';
 import 'package:flutter/widgets.dart';
 
 extension Knob on BuildContext {
