@@ -3,7 +3,6 @@ import 'package:advanced_storybook/providers/providers.dart';
 import 'package:advanced_storybook/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:collection/collection.dart';
 
 class AdvancedStorybook extends StatefulWidget {
   const AdvancedStorybook({
@@ -33,7 +32,7 @@ class _AdvancedStorybookState extends State<AdvancedStorybook> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<Story?> (
+    return ValueListenableBuilder<Story?>(
       valueListenable: _currentStory,
       builder: (_, currentStory, __) {
         return ValueListenableBuilder(
@@ -49,11 +48,8 @@ class _AdvancedStorybookState extends State<AdvancedStorybook> {
                         padding: const EdgeInsets.symmetric(
                           horizontal: 300,
                         ),
-                        child: StoryProvider(
+                        child: StoryViewer(
                           story: currentStory,
-                          child: Builder(
-                            builder: currentStory.builder,
-                          ),
                         ),
                       ),
                     )
@@ -79,9 +75,9 @@ class _AdvancedStorybookState extends State<AdvancedStorybook> {
                         duration: const Duration(milliseconds: 200),
                         child: value != null
                             ? StoryProvider(
-                          story: value,
-                          child: const EditingPannel(),
-                        )
+                                story: value,
+                                child: const EditingPannel(),
+                              )
                             : const SizedBox(),
                       );
                     },
