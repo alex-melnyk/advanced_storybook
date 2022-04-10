@@ -2,5 +2,5 @@
 
 Advanced Storybook plugin.
 
-![./PREVIEW](PREVIEW.png)
+![PREVIEW](./PREVIEW.png)
 
