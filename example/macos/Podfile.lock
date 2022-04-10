@@ -1,0 +1,28 @@
+PODS:
+  - advanced_storybook (0.0.1):
+    - FlutterMacOS
+  - FlutterMacOS (1.0.0)
+  - shared_preferences_macos (0.0.1):
+    - FlutterMacOS
+
+DEPENDENCIES:
+  - advanced_storybook (from `Flutter/ephemeral/.symlinks/plugins/advanced_storybook/macos`)
+  - FlutterMacOS (from `Flutter/ephemeral`)
+  - shared_preferences_macos (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_macos/macos`)
+
+EXTERNAL SOURCES:
+  advanced_storybook:
+    :path: Flutter/ephemeral/.symlinks/plugins/advanced_storybook/macos
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+  shared_preferences_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/shared_preferences_macos/macos
+
+SPEC CHECKSUMS:
+  advanced_storybook: 2526324b8e00f38610794b9ebd18a0ce0f2f8e51
+  FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
+  shared_preferences_macos: a64dc611287ed6cbe28fd1297898db1336975727
+
+PODFILE CHECKSUM: 6eac6b3292e5142cfc23bdeb71848a40ec51c14c
+
+COCOAPODS: 1.11.3
