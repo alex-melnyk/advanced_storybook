@@ -1,3 +1,7 @@
+## 1.0.2
+
+* Documentation added.
+
 ## 1.0.1
 
 * Readme fixed.

@@ -3,11 +3,15 @@ import 'package:advanced_storybook/models/models.dart';
 import 'package:advanced_storybook/providers/providers.dart';
 import 'package:flutter/widgets.dart';
 
+/// The [BuildContext] class extension.
 extension Knob on BuildContext {
   /// Creates [bool] knob.
   bool boolean({
+    /// Knob node key.
     required String key,
+    /// Knob node description.
     String? description,
+    /// Knob node initial value.
     required bool initial,
   }) {
     final knobProvider = KnobsProvider.of(this);
@@ -28,10 +32,15 @@ extension Knob on BuildContext {
 
   /// Creates [int] or [double] knob.
   T number<T extends num>({
+    /// Knob node key.
     required String key,
+    /// Knob node description.
     String? description,
+    /// Knob node initial value.
     required T initial,
+    /// Knob node minimum value.
     required T min,
+    /// Knob node maximum value.
     required T max,
   }) {
     final knobProvider = KnobsProvider.of(this);
@@ -54,8 +63,11 @@ extension Knob on BuildContext {
 
   /// Creates [String] knob.
   String string({
+    /// Knob node key.
     required String key,
+    /// Knob node description.
     String? description,
+    /// Knob node initial value.
     required String initial,
   }) {
     final knobProvider = KnobsProvider.of(this);
@@ -76,9 +88,13 @@ extension Knob on BuildContext {
 
   /// Creates [Option] knob.
   T options<T>({
+    /// Knob node key.
     required String key,
+    /// Knob node description.
     String? description,
+    /// Knob node options.
     required List<Option<T>> options,
+    /// Knob node initial value index.
     int initialIndex = 0,
   }) {
     final knobProvider = KnobsProvider.of(this);

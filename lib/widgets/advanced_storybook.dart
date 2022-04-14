@@ -10,6 +10,7 @@ class AdvancedStorybook extends StatefulWidget {
     required this.stories,
   }) : super(key: key);
 
+  /// List of stories.
   final List<Story> stories;
 
   @override

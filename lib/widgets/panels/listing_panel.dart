@@ -2,6 +2,7 @@ import 'package:advanced_storybook/models/models.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
+/// Listing panel widget represents left side panel with sotries.
 class ListingPannel extends StatelessWidget {
   ListingPannel({
     Key? key,

@@ -1,6 +1,6 @@
 name: advanced_storybook
-description: Advanced Storybook
-version: 1.0.1
+description: Advanced Storybook for creating and testing widgets on different platforms.
+version: 1.0.2
 homepage: https://github.com/alex-melnyk/advanced_storybook
 repository: https://github.com/alex-melnyk/advanced_storybook
 issue_tracker: https://github.com/alex-melnyk/advanced_storybook/issues
@@ -8,7 +8,6 @@ documentation: https://github.com/alex-melnyk/advanced_storybook/blob/master/REA
 
 environment:
   sdk: ">=2.16.1 <3.0.0"
-  flutter: ">=2.5.0"
 
 dependencies:
   flutter:

@@ -1,5 +1,6 @@
 import 'knob_node_base.dart';
 
+/// Number knob node class.
 class KnobNodeNumber<T extends num> extends KnobNodeBase<T> {
   KnobNodeNumber({
     required String key,
