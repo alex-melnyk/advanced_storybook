@@ -2,12 +2,14 @@ import 'package:advanced_storybook/knobs/knobs.dart';
 import 'package:advanced_storybook/providers/providers.dart';
 import 'package:flutter/material.dart';
 
+/// Checkbox widget for [KnobNodeBool].
 class KnobCheckboxWidget extends StatelessWidget {
   const KnobCheckboxWidget({
     Key? key,
     required this.knobNode,
   }) : super(key: key);
 
+  /// Knob node instance.
   final KnobNodeBool knobNode;
 
   @override
@@ -17,14 +19,17 @@ class KnobCheckboxWidget extends StatelessWidget {
       subtitle:
           knobNode.description != null ? Text(knobNode.description!) : null,
       value: knobNode.value,
-      onChanged: (value) => handleOnChanged(
+      onChanged: (value) => _handleOnChanged(
         context,
         value: value,
       ),
     );
   }
 
-  void handleOnChanged(BuildContext context, {required bool? value}) {
+  void _handleOnChanged(
+    BuildContext context, {
+    required bool? value,
+  }) {
     final knobsProvider = KnobsProvider.of(context);
     final storyProvider = StoryProvider.of(context);
 

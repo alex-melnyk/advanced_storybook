@@ -4,6 +4,7 @@ import 'package:advanced_storybook/widgets/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
+/// Editing panel widget represents right side panel with knobs.
 class EditingPannel extends StatelessWidget {
   const EditingPannel({
     Key? key,

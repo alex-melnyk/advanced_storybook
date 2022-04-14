@@ -1,5 +1,6 @@
 import 'knob_node_base.dart';
 
+/// Boolean knob node class.
 class KnobNodeBool extends KnobNodeBase<bool> {
   KnobNodeBool({
     required String key,

@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import 'knob_store.dart';
 
+/// Knob Store provider.
 class KnobsProvider extends InheritedWidget {
   const KnobsProvider({
     Key? key,
@@ -9,8 +10,10 @@ class KnobsProvider extends InheritedWidget {
     required Widget child,
   }) : super(key: key, child: child);
 
+  /// KnobStore value.
   final KnobStore knobStore;
 
+  /// Gets [KnobsProvider] from context.
   static KnobsProvider of(BuildContext context) {
     final KnobsProvider? result =
         context.dependOnInheritedWidgetOfExactType<KnobsProvider>();

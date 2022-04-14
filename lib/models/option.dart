@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+/// Option representation class.
 class Option<T> {
   const Option({
     this.key,
@@ -7,8 +8,11 @@ class Option<T> {
     required this.value,
   });
 
+  /// Option key.
   final String? key;
+  /// Option description.
   final String? description;
+  /// Option value.
   final T value;
 
   @override

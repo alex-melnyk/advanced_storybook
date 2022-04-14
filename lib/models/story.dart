@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-/// The story representation class.
+/// Story representation class.
 class Story {
   const Story({
     required this.key,

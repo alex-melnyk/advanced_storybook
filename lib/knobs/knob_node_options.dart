@@ -2,6 +2,7 @@ import 'package:advanced_storybook/models/models.dart';
 
 import 'knob_node_base.dart';
 
+/// Options knob node class.
 class KnobNodeOptions<T> extends KnobNodeBase<Option<T>> {
   KnobNodeOptions({
     required String key,
