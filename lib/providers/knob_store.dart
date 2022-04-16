@@ -38,11 +38,13 @@ class KnobStore extends ChangeNotifier
 
       if (!knobs.containsKey(knobKey)) {
         knobs[knobKey] = knobNode;
+        Future.microtask(notifyListeners);
       }
     } else {
       _value[storyKey] = {
         knobKey: knobNode,
       };
+      Future.microtask(notifyListeners);
     }
 
     return _value[storyKey]![knobKey]! as T;

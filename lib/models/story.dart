@@ -8,6 +8,9 @@ class Story {
     required this.builder,
   });
 
+  /// Key delimiter string.
+  static const keyDelimiter = '/';
+
   /// Story path.
   ///
   /// NOTICE: The '/' character could be used to group,
@@ -22,13 +25,27 @@ class Story {
 
   /// Section getter.
   String get section {
-    final parts = key.split('/');
-    return parts.length > 1 ? parts.first : '';
+    if (key.contains(keyDelimiter)) {
+      final index = key.indexOf(keyDelimiter);
+
+      if (index + 1 != key.length) {
+        return key.substring(0, index);
+      }
+    }
+
+    return '';
   }
 
   /// Title getter.
   String get title {
-    final parts = key.split('/');
-    return parts.length > 1 ? parts.last : key;
+    if (key.contains(keyDelimiter)) {
+      final index = key.indexOf(keyDelimiter);
+
+      if (index + 1 != key.length) {
+        return key.substring(index + 1);
+      }
+    }
+
+    return key;
   }
 }

@@ -16,6 +16,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: AdvancedStorybook(
           stories: [
@@ -49,20 +50,9 @@ class _MyAppState extends State<MyApp> {
                         max: 50,
                       ),
                       itemBuilder: (context, index) {
-                        final title = context.string(
-                          key: 'ListTile/Items title',
-                          description: 'Common items title',
-                          initial: 'ListTile Item',
-                        );
-                        final subtitle = context.string(
-                          key: 'ListTile/Items subtitle',
-                          description: 'Common items subtitle',
-                          initial: 'Dynamicaly generated items',
-                        );
-
                         return ListTile(
-                          title: Text('$title $index'),
-                          subtitle: Text(subtitle),
+                          title: Text('ListTile Item $index'),
+                          subtitle: const Text('Dynamicaly generated items'),
                         );
                       },
                     ),

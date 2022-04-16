@@ -9,15 +9,17 @@ extension Knob on BuildContext {
   bool boolean({
     /// Knob node key.
     required String key,
+
     /// Knob node description.
     String? description,
+
     /// Knob node initial value.
     required bool initial,
   }) {
-    final knobProvider = KnobsProvider.of(this);
+    final storybookProvider = StorybookProvider.of(this);
     final storyProvider = StoryProvider.of(this);
 
-    final knobNode = knobProvider.knobStore.addStoryKnob(
+    final knobNode = storybookProvider.knobStore.addStoryKnob(
       storyProvider.story.key,
       knobKey: key,
       knobNode: KnobNodeBool(
@@ -34,19 +36,23 @@ extension Knob on BuildContext {
   T number<T extends num>({
     /// Knob node key.
     required String key,
+
     /// Knob node description.
     String? description,
+
     /// Knob node initial value.
     required T initial,
+
     /// Knob node minimum value.
     required T min,
+
     /// Knob node maximum value.
     required T max,
   }) {
-    final knobProvider = KnobsProvider.of(this);
+    final storybookProvider = StorybookProvider.of(this);
     final storyProvider = StoryProvider.of(this);
 
-    final knobNode = knobProvider.knobStore.addStoryKnob(
+    final knobNode = storybookProvider.knobStore.addStoryKnob(
       storyProvider.story.key,
       knobKey: key,
       knobNode: KnobNodeNumber<T>(
@@ -65,15 +71,17 @@ extension Knob on BuildContext {
   String string({
     /// Knob node key.
     required String key,
+
     /// Knob node description.
     String? description,
+
     /// Knob node initial value.
     required String initial,
   }) {
-    final knobProvider = KnobsProvider.of(this);
+    final storybookProvider = StorybookProvider.of(this);
     final storyProvider = StoryProvider.of(this);
 
-    final knobNode = knobProvider.knobStore.addStoryKnob(
+    final knobNode = storybookProvider.knobStore.addStoryKnob(
       storyProvider.story.key,
       knobKey: key,
       knobNode: KnobNodeText(
@@ -90,17 +98,20 @@ extension Knob on BuildContext {
   T options<T>({
     /// Knob node key.
     required String key,
+
     /// Knob node description.
     String? description,
+
     /// Knob node options.
     required List<Option<T>> options,
+
     /// Knob node initial value index.
     int initialIndex = 0,
   }) {
-    final knobProvider = KnobsProvider.of(this);
+    final storybookProvider = StorybookProvider.of(this);
     final storyProvider = StoryProvider.of(this);
 
-    final knobNode = knobProvider.knobStore.addStoryKnob(
+    final knobNode = storybookProvider.knobStore.addStoryKnob(
       storyProvider.story.key,
       knobKey: key,
       knobNode: KnobNodeOptions<T>(

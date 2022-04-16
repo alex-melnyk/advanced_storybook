@@ -36,11 +36,10 @@ class KnobTextWidget extends StatelessWidget {
     BuildContext context, {
     required String value,
   }) {
-    final knobsProvider = KnobsProvider.of(context);
-    final storyProvider = StoryProvider.of(context);
+    final storybookProvider = StorybookProvider.of(context);
 
-    knobsProvider.knobStore.updateStoryKnobValue(
-      storyProvider.story.key,
+    storybookProvider.knobStore.updateStoryKnobValue(
+      storybookProvider.currentStory!.key,
       knobKey: knobNode.key,
       newValue: value,
     );
