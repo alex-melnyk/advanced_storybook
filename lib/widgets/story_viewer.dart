@@ -85,29 +85,31 @@ class _StoryViewerState extends State<StoryViewer> {
                           child: DeviceFrame(
                             isFrameVisible: true,
                             device: Devices.ios.iPhone13Mini,
-                            screen: Builder(
-                              builder: (context) {
-                                if (widget.story is Story) {
-                                  final viewStory = widget.story as Story;
-                                  return Center(
-                                    child: RepaintBoundary(
-                                      key: _repaintBoundary,
-                                      child: StoryProvider(
-                                        story: viewStory,
-                                        child: Builder(
-                                          builder: viewStory.builder,
+                            screen: Scaffold(
+                              body: Builder(
+                                builder: (context) {
+                                  if (widget.story is Story) {
+                                    final viewStory = widget.story as Story;
+                                    return Center(
+                                      child: RepaintBoundary(
+                                        key: _repaintBoundary,
+                                        child: StoryProvider(
+                                          story: viewStory,
+                                          child: Builder(
+                                            builder: viewStory.builder,
+                                          ),
                                         ),
                                       ),
+                                    );
+                                  }
+
+                                  return const Scaffold(
+                                    body: Center(
+                                      child: Text('Select a story to preview'),
                                     ),
                                   );
-                                }
-
-                                return const Scaffold(
-                                  body: Center(
-                                    child: Text('Select a story to preview'),
-                                  ),
-                                );
-                              },
+                                },
+                              ),
                             ),
                           ),
                         );
@@ -123,8 +125,8 @@ class _StoryViewerState extends State<StoryViewer> {
                         child: AnimatedAlign(
                           duration: const Duration(milliseconds: 300),
                           alignment: visibility
-                              ? Alignment.bottomRight
-                              : const Alignment(2.0, 1.0),
+                              ? Alignment.bottomCenter
+                              : const Alignment(1.0, 2.0),
                           child: child!,
                         ),
                       );

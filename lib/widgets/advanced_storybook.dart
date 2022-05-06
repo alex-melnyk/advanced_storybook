@@ -28,32 +28,6 @@ class _AdvancedStorybookState extends State<AdvancedStorybook> {
         final storybook = StorybookProvider.of(context);
         final isStorySelected = storybook.currentStory is Story;
 
-        // return Column(
-        //   children: [
-        //     ZoomPanel(
-        //       controller: _zoom,
-        //     ),
-        //     Expanded(
-        //       child: Row(
-        //         children: [
-        //           ListingPannel(
-        //             stories: widget.stories,
-        //           ),
-        //           Expanded(
-        //             child: StoryViewer(
-        //               story: storybook.currentStory,
-        //               zoomController: _zoom,
-        //             ),
-        //           ),
-        //           EditingPannel(
-        //             story: storybook.currentStory,
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //   ],
-        // );
-
         return Column(
           children: [
             ZoomPanel(
