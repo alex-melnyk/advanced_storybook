@@ -4,7 +4,7 @@ import 'package:advanced_storybook/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class AdvancedStorybook extends StatelessWidget {
+class AdvancedStorybook extends StatefulWidget {
   const AdvancedStorybook({
     Key? key,
     required this.stories,
@@ -14,38 +14,48 @@ class AdvancedStorybook extends StatelessWidget {
   final List<Story> stories;
 
   @override
+  State<AdvancedStorybook> createState() => _AdvancedStorybookState();
+}
+
+class _AdvancedStorybookState extends State<AdvancedStorybook> {
+  final _zoom = ValueNotifier<double>(1.0);
+
+  @override
   Widget build(BuildContext context) {
     return StorybookProvider(
-      stories: stories,
+      stories: widget.stories,
       builder: (context) {
         final storybook = StorybookProvider.of(context);
         final isStorySelected = storybook.currentStory is Story;
 
-        return Stack(
+        return Column(
           children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 300,
-                ),
-                child: StoryViewer(
-                  story: storybook.currentStory,
-                ),
-              ),
+            ZoomPanel(
+              controller: _zoom,
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: ListingPannel(
-                stories: stories,
-              ),
-            ),
-            AnimatedAlign(
-              alignment: isStorySelected
-                  ? Alignment.centerRight
-                  : const Alignment(2.0, 0.0),
-              duration: const Duration(milliseconds: 200),
-              child: EditingPannel(
-                story: storybook.currentStory,
+            Expanded(
+              child: Stack(
+                children: [
+                  StoryViewer(
+                    story: storybook.currentStory,
+                    zoomController: _zoom,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: ListingPannel(
+                      stories: widget.stories,
+                    ),
+                  ),
+                  AnimatedAlign(
+                    alignment: isStorySelected
+                        ? Alignment.centerRight
+                        : const Alignment(2.0, 0.0),
+                    duration: const Duration(milliseconds: 200),
+                    child: EditingPannel(
+                      story: storybook.currentStory,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
