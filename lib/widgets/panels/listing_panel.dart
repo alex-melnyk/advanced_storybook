@@ -8,10 +8,14 @@ class ListingPannel extends StatelessWidget {
   ListingPannel({
     Key? key,
     required List<Story> stories,
-  })  : stories = stories.groupListsBy((e) => e.section),
+    this.onPressedBack,
+  })  : stories = stories.groupListsBy(
+          (e) => e.section,
+        ),
         super(key: key);
 
   late final Map<String, List<Story>> stories;
+  final VoidCallback? onPressedBack;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +61,13 @@ class ListingPannel extends StatelessWidget {
                         subtitle: story.description != null
                             ? Text(story.description!)
                             : null,
-                        onTap: () => storybookProvider.currentStory = story,
+                        onTap: () {
+                          storybookProvider.currentStory = story;
+
+                          if (onPressedBack != null) {
+                            onPressedBack!();
+                          }
+                        },
                         selected:
                             story.key == storybookProvider.currentStory?.key,
                       );

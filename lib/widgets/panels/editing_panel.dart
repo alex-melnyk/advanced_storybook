@@ -11,10 +11,12 @@ class EditingPannel extends StatefulWidget {
     Key? key,
     this.isExpanded = true,
     this.story,
+    this.onPressedBack,
   }) : super(key: key);
 
   final bool isExpanded;
   final Story? story;
+  final VoidCallback? onPressedBack;
 
   @override
   State<EditingPannel> createState() => _EditingPannelState();
@@ -42,6 +44,7 @@ class _EditingPannelState extends State<EditingPannel> {
 
     final storybookProvider = StorybookProvider.of(context);
     final knobStore = storybookProvider.knobStore;
+    final isNotEmptyBack = widget.onPressedBack != null;
 
     final groups = knobStore
         .storyKnobs(widget.story!.key)
@@ -60,68 +63,109 @@ class _EditingPannelState extends State<EditingPannel> {
       child: Builder(
         builder: (context) {
           if (groups.isEmpty) {
-            return const Center(
-              child: Text('No KNOBS'),
+            return Stack(
+              children: [
+                if (isNotEmptyBack)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 5,
+                    ),
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: Colors.grey,
+                      ),
+                      onPressed: widget.onPressedBack,
+                    ),
+                  ),
+                const Center(
+                  child: Text('No KNOBS'),
+                ),
+              ],
             );
           }
 
           return SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            child: ExpansionPanelList(
-              key: ValueKey(widget.story!.key),
-              elevation: 1,
-              expansionCallback: (panelIndex, isExpanded) {
-                setState(() {
-                  _expansions[panelIndex] = !isExpanded;
-                });
-              },
-              children: List.generate(
-                groups.length,
-                (panelIndex) {
-                  final group = groups.entries.elementAt(panelIndex);
+            child: Column(
+              children: [
+                if (isNotEmptyBack)
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 5,
+                      left: 5,
+                    ),
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: Colors.grey,
+                      ),
+                      onPressed: widget.onPressedBack,
+                    ),
+                  ),
+                ExpansionPanelList(
+                  key: ValueKey(widget.story!.key),
+                  elevation: 1,
+                  expansionCallback: (panelIndex, isExpanded) {
+                    setState(() {
+                      _expansions[panelIndex] = !isExpanded;
+                    });
+                  },
+                  children: List.generate(
+                    groups.length,
+                    (panelIndex) {
+                      final group = groups.entries.elementAt(panelIndex);
 
-                  return ExpansionPanel(
-                    isExpanded: _expansions[panelIndex] ?? widget.isExpanded,
-                    canTapOnHeader: false,
-                    headerBuilder: (context, isExpanded) {
-                      final sectionName =
-                          group.key.isEmpty ? 'Ungrouped' : group.key;
+                      return ExpansionPanel(
+                        isExpanded:
+                            _expansions[panelIndex] ?? widget.isExpanded,
+                        canTapOnHeader: false,
+                        headerBuilder: (context, isExpanded) {
+                          final sectionName =
+                              group.key.isEmpty ? 'Ungrouped' : group.key;
 
-                      return ListTile(
-                        title: Text(sectionName),
+                          return ListTile(
+                            title: Text(sectionName),
+                          );
+                        },
+                        body: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            for (final knobNode in group.value)
+                              if (knobNode is KnobNodeText)
+                                KnobTextWidget(
+                                  key: ValueKey(knobNode.key),
+                                  knobNode: knobNode,
+                                )
+                              else if (knobNode is KnobNodeOptions)
+                                KnobOptionsWidget(
+                                  key: ValueKey(knobNode.key),
+                                  knobNode: knobNode,
+                                )
+                              else if (knobNode is KnobNodeNumber)
+                                KnobSliderWidget(
+                                  key: ValueKey(knobNode.key),
+                                  knobNode: knobNode,
+                                )
+                              else if (knobNode is KnobNodeBool)
+                                KnobCheckboxWidget(
+                                  key: ValueKey(knobNode.key),
+                                  knobNode: knobNode,
+                                )
+                              else
+                                Text('Unrecognized KNOB [${knobNode.key}]'),
+                          ],
+                        ),
                       );
                     },
-                    body: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        for (final knobNode in group.value)
-                          if (knobNode is KnobNodeText)
-                            KnobTextWidget(
-                              key: ValueKey(knobNode.key),
-                              knobNode: knobNode,
-                            )
-                          else if (knobNode is KnobNodeOptions)
-                            KnobOptionsWidget(
-                              key: ValueKey(knobNode.key),
-                              knobNode: knobNode,
-                            )
-                          else if (knobNode is KnobNodeNumber)
-                            KnobSliderWidget(
-                              key: ValueKey(knobNode.key),
-                              knobNode: knobNode,
-                            )
-                          else if (knobNode is KnobNodeBool)
-                            KnobCheckboxWidget(
-                              key: ValueKey(knobNode.key),
-                              knobNode: knobNode,
-                            )
-                          else
-                            Text('Unrecognized KNOB [${knobNode.key}]'),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                  ),
+                ),
+              ],
             ),
           );
         },

@@ -13,10 +13,13 @@ class StoryViewer extends StatefulWidget {
   const StoryViewer({
     Key? key,
     required this.story,
+    this.onPressedSettings,
   }) : super(key: key);
 
   /// Story instance to view.
   final Story? story;
+
+  final VoidCallback? onPressedSettings;
 
   @override
   State<StoryViewer> createState() => _StoryViewerState();
@@ -31,91 +34,103 @@ class _StoryViewerState extends State<StoryViewer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          DevicePreview(
-            builder: (context) {
-              if (widget.story is Story) {
-                final viewStory = widget.story as Story;
-                return Center(
-                  child: RepaintBoundary(
-                    key: _repaintBoundary,
-                    child: StoryProvider(
-                      story: viewStory,
-                      child: Builder(
-                        builder: viewStory.builder,
+        body: Stack(
+          children: [
+            DevicePreview(
+              builder: (context) {
+                if (widget.story is Story) {
+                  final viewStory = widget.story as Story;
+                  return Center(
+                    child: RepaintBoundary(
+                      key: _repaintBoundary,
+                      child: StoryProvider(
+                        story: viewStory,
+                        child: Builder(
+                          builder: viewStory.builder,
+                        ),
                       ),
                     ),
+                  );
+                }
+
+                return const Center(
+                  child: Text('Select a story to preview'),
+                );
+              },
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: _screenshotVisibility,
+              builder: (context, visibility, child) {
+                return AnimatedOpacity(
+                  duration: const Duration(milliseconds: 300),
+                  opacity: visibility ? 1.0 : 0.0,
+                  child: AnimatedAlign(
+                    duration: const Duration(milliseconds: 300),
+                    alignment: visibility
+                        ? Alignment.bottomRight
+                        : const Alignment(2.0, 1.0),
+                    child: child!,
                   ),
                 );
-              }
-
-              return const Center(
-                child: Text('Select a story to preview'),
-              );
-            },
-          ),
-          ValueListenableBuilder<bool>(
-            valueListenable: _screenshotVisibility,
-            builder: (context, visibility, child) {
-              return AnimatedOpacity(
-                duration: const Duration(milliseconds: 300),
-                opacity: visibility ? 1.0 : 0.0,
-                child: AnimatedAlign(
-                  duration: const Duration(milliseconds: 300),
-                  alignment: visibility
-                      ? Alignment.bottomRight
-                      : const Alignment(2.0, 1.0),
-                  child: child!,
-                ),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                  child: Container(
-                    width: 200,
-                    height: 200,
-                    alignment: Alignment.center,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      // color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        width: 2,
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                      alignment: Alignment.center,
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        // color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          width: 2,
+                        ),
                       ),
-                    ),
-                    child: ValueListenableBuilder<Uint8List?>(
-                      valueListenable: _screenshotData,
-                      builder: (context, data, __) {
-                        if (data == null) {
-                          return const SizedBox();
-                        }
+                      child: ValueListenableBuilder<Uint8List?>(
+                        valueListenable: _screenshotData,
+                        builder: (context, data, __) {
+                          if (data == null) {
+                            return const SizedBox();
+                          }
 
-                        return Image.memory(
-                          data,
-                          fit: BoxFit.contain,
-                        );
-                      },
+                          return Image.memory(
+                            data,
+                            fit: BoxFit.contain,
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: widget.story != null
-          ? FloatingActionButton(
-              onPressed: _handleTakeScreenshot,
-              child: const Icon(Icons.screenshot),
-            )
-          : null,
-    );
+          ],
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+        floatingActionButton: Column(
+          children: [
+            if (widget.story != null)
+              FloatingActionButton(
+                onPressed: _handleTakeScreenshot,
+                child: const Icon(Icons.screenshot),
+              ),
+            if (widget.onPressedSettings != null)
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 15,
+                ),
+                child: FloatingActionButton(
+                  onPressed: widget.onPressedSettings,
+                  child: const Icon(Icons.settings),
+                ),
+              ),
+          ],
+        ));
   }
 
   void _handleTakeScreenshot() async {
